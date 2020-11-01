@@ -8,6 +8,8 @@
 // - prescale variable: replaced uint8_t with uint16_t data type (fixes bug, which did not allow frequencies < 492Hz)
 // - mode variable: replaced hex format with binary to make it more readable, if compared with bit tables in the 32U4 manual
 // - added comments
+// Revised by arufl
+// - added ATMega 4809 support
 //
 
 #ifndef PWMFrequency
@@ -95,7 +97,7 @@ void setPWMPrescaler(uint8_t pin, uint16_t prescale)
   }
 }
 
-#else
+#elseif defined(__AVR_ATmega328P__) || defined(__AVR_ATmega168__) 
 
 /**
  * Divides a given PWM pin frequency by a divisor.
@@ -162,6 +164,85 @@ void setPWMPrescaler(uint8_t pin, uint16_t prescale) {
   } else if (pin==3 || pin==11) {
     TCCR2B = TCCR2B & 0b11111000 | mode;
   }
+}
+#else
+/**
+ * Divides a given PWM pin frequency by a divisor.
+ *  Arduino Nano Every (ATMega4809) specific by arufl
+ * 
+ * Sets the Prescaler (Divisor) for a given PWM pin. The resulting frequency 
+ * is equal to the base frequency divided by the given divisor:
+ *   - Base frequencies:
+ *      o The base frequency for all pins is 62500 Hz.
+ *     
+ *   - Divisors:
+ *     o The divisors for pins 5,9 and 10 available are: 1,2,4,8,16,64,256,1024.
+ *		o The divisors for pins 3 and 6: 1,2 and TCA0's divisor in use
+ * 
+ * 
+ * Note that this function will have side effects on anything else
+ * that uses timers:
+ *   - Changes on pins 5,9 and 10 may cause the delay() and
+ *     millis() functions to stop working. Other timing-related
+ *     functions may also be affected.
+ * 
+ * Thanks to plymdiver of the Arduino forums for  his explaination on how the
+ * ATmega4809 timers works and which timer His post can be viewed at:
+ *
+ *   https://forum.arduino.cc/index.php?topic=626736.msg4503396#msg4503396
+ * 
+ */
+void setPWMPrescaler(uint8_t pin, uint16_t prescale) {
+  
+  byte mode;
+  
+  if(pin == 5 || pin == 9 || pin == 10) {
+	TCA0.SINGLE.CTRLA &= ~TCA_SINGLE_ENABLE_bm;
+	TCA0.SINGLE.CTRLA &= ~TCA_SINGLE_CLKSEL_gm;
+    switch(prescale) {
+      case    1: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV1_gc; break;
+	  case    2: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV2_gc; break;
+	  case    4: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV4_gc; break;
+      case    8: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV8_gc; break;
+	  case   16: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV16_gc; break;
+      case   64: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV64_gc; break; 
+      case  256: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV256_gc; break;
+      case 1024: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV1024_gc; break;
+      default: return;
+
+    }
+	TCA0.SINGLE.CTRLA |= TCA_SINGLE_ENABLE_bm;
+    
+  }
+  if(pin == 6) {
+	TCB0_CTRLA  &= ~TCB_ENABLE_bm;
+	TCB0_CTRLA &= ~TCB_CLKSEL_gm;
+    switch(prescale) {
+      case    1: TCB0_CTRLA |= TCB_CLKSEL_CLKDIV1_gc; break;
+	  case    2: TCB0_CTRLA |= TCB_CLKSEL_CLKDIV2_gc; break;
+	  case    64: TCB0_CTRLA |= TCB_CLKSEL_CLKTCA_gc; break;
+ 
+      default: return;
+
+    }
+	TCB0_CTRLA  |= TCB_ENABLE_bm;
+    
+  }
+  if(pin == 3) {
+	TCB1_CTRLA  &= ~TCB_ENABLE_bm;
+	TCB1_CTRLA &= ~TCB_CLKSEL_gm;
+    switch(prescale) {
+      case    1: TCB1_CTRLA |= TCB_CLKSEL_CLKDIV1_gc; break;
+	  case    2: TCB1_CTRLA |= TCB_CLKSEL_CLKDIV2_gc; break;
+	  case    64: TCB1_CTRLA |= TCB_CLKSEL_CLKTCA_gc; break;
+ 
+      default: return;
+
+    }
+	TCB1_CTRLA  |= TCB_ENABLE_bm;
+    
+  }
+  
 }
 
 #endif
