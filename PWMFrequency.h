@@ -200,14 +200,14 @@ void setPWMPrescaler(uint8_t pin, uint16_t prescale) {
 	TCA0.SINGLE.CTRLA &= ~TCA_SINGLE_ENABLE_bm;
 	TCA0.SINGLE.CTRLA &= ~TCA_SINGLE_CLKSEL_gm;
     switch(prescale) {
-      case    1: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV1_gc; break;
-	  case    2: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV2_gc; break;
-	  case    4: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV4_gc; break;
-      case    8: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV8_gc; break;
-	  case   16: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV16_gc; break;
-      case   64: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV64_gc; break; 
-      case  256: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV256_gc; break;
-      case 1024: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV1024_gc; break;
+	    case    1: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV1_gc; break;
+	    case    2: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV2_gc; break;
+	    case    4: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV4_gc; break;
+	    case    8: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV8_gc; break;
+	    case   16: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV16_gc; break;
+	    case   64: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV64_gc; break;
+	    case  256: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV256_gc; break;
+	    case 1024: TCA0.SINGLE.CTRLA |= TCA_SINGLE_CLKSEL_DIV1024_gc; break;
       default: return;
 
     }
@@ -218,9 +218,9 @@ void setPWMPrescaler(uint8_t pin, uint16_t prescale) {
 	TCB0_CTRLA  &= ~TCB_ENABLE_bm;
 	TCB0_CTRLA &= ~TCB_CLKSEL_gm;
     switch(prescale) {
-      case    1: TCB0_CTRLA |= TCB_CLKSEL_CLKDIV1_gc; break;
-	  case    2: TCB0_CTRLA |= TCB_CLKSEL_CLKDIV2_gc; break;
-	  case    64: TCB0_CTRLA |= TCB_CLKSEL_CLKTCA_gc; break;
+	    case    1: TCB0_CTRLA |= TCB_CLKSEL_CLKDIV1_gc; break;
+	    case    2: TCB0_CTRLA |= TCB_CLKSEL_CLKDIV2_gc; break;
+	    case    64: TCB0_CTRLA |= TCB_CLKSEL_CLKTCA_gc; break;
  
       default: return;
 
@@ -232,9 +232,9 @@ void setPWMPrescaler(uint8_t pin, uint16_t prescale) {
 	TCB1_CTRLA  &= ~TCB_ENABLE_bm;
 	TCB1_CTRLA &= ~TCB_CLKSEL_gm;
     switch(prescale) {
-      case    1: TCB1_CTRLA |= TCB_CLKSEL_CLKDIV1_gc; break;
-	  case    2: TCB1_CTRLA |= TCB_CLKSEL_CLKDIV2_gc; break;
-	  case    64: TCB1_CTRLA |= TCB_CLKSEL_CLKTCA_gc; break;
+	    case    1: TCB1_CTRLA |= TCB_CLKSEL_CLKDIV1_gc; break;
+	    case    2: TCB1_CTRLA |= TCB_CLKSEL_CLKDIV2_gc; break;
+	    case    64: TCB1_CTRLA |= TCB_CLKSEL_CLKTCA_gc; break;
  
       default: return;
 
