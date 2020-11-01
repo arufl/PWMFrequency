@@ -53,6 +53,7 @@ The following changes were done by me, TheDIYGuy999:
 - folder structure changed, so you can download and install it as usual
 
 Changes done by arufl:
+
 2.2
 - Support for Nano Every
 
