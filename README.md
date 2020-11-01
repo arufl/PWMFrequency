@@ -3,11 +3,11 @@ PWM Frequency Arduino Library
 
 Library for Setting the PWM Frequency
 
-Written by kiwisincebirth 2014
+Originaly written by kiwisincebirth 2014 https://github.com/kiwisincebirth/Arduino/tree/master/libraries/PWMFrequency
 
 Please keep in mind that changing the PWM frequency changes the Atmega's timers and disrupts the normal operation of many functions that rely on time (delay(), millis(), Servo library).
 
-This Library supports both ATMega 328 and 32U4 (Leonardo)
+This Library supports ATMega 328, 32U4 (Leonardo) and ATMega4809 (Nano Every).
 
 Example
 =======
@@ -35,6 +35,9 @@ http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1235060559/0#4
 
 Thanks to MacTester57 (aka TheDIYGuy999) for providing ATMega 32U4 testing
 http://www.tonymacx86.com/imac-mods/107859-kiwis-next-project-imac-g5-10.html#post765116
+
+Thanks to plymdiver of the Arduino forums for his explaination on how the ATmega4809 timers works and which timer corresponds each pin. 
+https://forum.arduino.cc/index.php?topic=626736.msg4503396#msg4503396
  
 Version History
 ===============
@@ -45,8 +48,12 @@ Because it looks like, that this repo (https://github.com/kiwisincebirth/Arduino
 
 The following changes were done by me, TheDIYGuy999:
 
-New in V 2.1:
+2.1:
 - Syntax coloration enhanced
 - folder structure changed, so you can download and install it as usual
+
+Changes done by arufl:
+2.2
+- Support for Nano Every
 
 
